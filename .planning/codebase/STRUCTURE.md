@@ -131,6 +131,12 @@ neuron-model/
 - `prepared_data/*/dataset_metadata.json` - Prepared dataset metadata
 - `activity_datasets/` - Pre-recorded neural activity
 
+### Planning & Design Docs
+
+- `.planning/codebase/ARCHITECTURE.md` - High-level architectural overview
+- `.planning/codebase/STRUCTURE.md` - This file; directory and module structure
+- `.planning/codebase/SEQUENCE_MEMORY.md` - Design note for a future brain-like Sequence Memory Module (linked sequence storage, subsequence reuse, activation-based prediction)
+
 ## Naming Conventions
 
 ### File Naming

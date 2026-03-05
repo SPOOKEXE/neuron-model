@@ -218,3 +218,13 @@ class PipelineOrchestrator:
 3. **Pipeline → PyTorch**: Standard torch integration
 4. **Webhook System**: External notification via HTTP POST
 5. **HDF5 Storage**: Lazy loading of large activity datasets
+
+## Future: Sequence Memory Architecture
+
+Long-term, this codebase is expected to grow a **Sequence Memory Module (SMM)** that models brain-like, linked sequence storage and predictive recall:
+
+- Explicit sequence elements with value / next / first links.
+- Subsequence reuse for compression and generalization.
+- Activation-based prediction where structure drives recall.
+
+The conceptual and mathematical design for this component is captured in `[SEQUENCE_MEMORY.md](SEQUENCE_MEMORY.md)` in this directory. Any future implementation of sequence memory should align with that document and be integrated as a distinct module alongside (not entangled with) the existing neuron and pipeline layers.
