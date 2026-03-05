@@ -36,7 +36,9 @@ neuron-model/
 │   ├── neuron.py               # Single neuron implementation
 │   ├── network.py              # Multi-neuron network
 │   ├── nn_core.py              # Neural network core
-│   └── network_config.py       # Network configuration
+│   ├── network_config.py       # Network configuration
+│   └── sequence_memory.py       # Sequence Memory Module (SMM)
+│   └── sequence_memory_config.py # SMM configuration
 ├── neuron_clustering_results/   # Clustering analysis results
 ├── pipeline/                    # Experiment pipeline (FastAPI)
 │   ├── api/                    # REST API

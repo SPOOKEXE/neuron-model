@@ -219,12 +219,50 @@ class PipelineOrchestrator:
 4. **Webhook System**: External notification via HTTP POST
 5. **HDF5 Storage**: Lazy loading of large activity datasets
 
-## Future: Sequence Memory Architecture
+## Sequence Memory Architecture (IMPLEMENTED)
 
-Long-term, this codebase is expected to grow a **Sequence Memory Module (SMM)** that models brain-like, linked sequence storage and predictive recall:
+The **Sequence Memory Module (SMM)** has been implemented in `neuron/sequence_memory.py`. It models brain-like, linked sequence storage and predictive recall:
 
-- Explicit sequence elements with value / next / first links.
-- Subsequence reuse for compression and generalization.
-- Activation-based prediction where structure drives recall.
+### Core Components
 
-The conceptual and mathematical design for this component is captured in `[SEQUENCE_MEMORY.md](SEQUENCE_MEMORY.md)` in this directory. Any future implementation of sequence memory should align with that document and be integrated as a distinct module alongside (not entangled with) the existing neuron and pipeline layers.
+**Location**: `neuron/sequence_memory.py`
+
+- **SequenceMemory**: Main class implementing linked sequence storage
+- **SequenceMemoryConfig**: Configuration dataclass
+- **MemorySlot**: Represents a single sequence element S = (v, n, f)
+
+### Key Features
+
+- **Explicit sequence elements**: Value / next / first links stored as matrices
+- **Subsequence reuse**: Compression through shared prefixes (see demo output)
+- **Activation-based prediction**: Emerges from structural propagation
+- **Sparse activation**: Top-k propagation for efficiency
+
+### Mathematical Framework
+
+- **V ∈ ℝ^(M×d)**: Value matrix for M sequence elements
+- **N ∈ ℝ^(M×M)**: Next link matrix  
+- **F ∈ ℝ^(M×M)**: First link matrix
+- **Match**: m^(t) = softmax(V x_t / √d)
+- **Propagate**: a^(t) = σ(N^T a^(t-1) + α · m^(t))
+- **Readout**: r^(t) = V^T a^(t)
+
+### Usage Example
+
+```python
+from neuron import SequenceMemory, SequenceMemoryConfig, embedding_from_token
+
+# Create SMM
+config = SequenceMemoryConfig(embedding_dim=64, max_slots=1000)
+smm = SequenceMemory(config)
+
+# Store sequences with subsequence reuse
+seq = [embedding_from_token(t) for t in ["hello", "world"]]
+root = smm.store_sequence(seq)
+
+# Predict next elements
+smm.reset_activation()
+predictions = smm.predict([embedding_from_token("hello")])
+```
+
+The conceptual and mathematical design for this component is captured in `[SEQUENCE_MEMORY.md](SEQUENCE_MEMORY.md)` in this directory.
